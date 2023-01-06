@@ -18,6 +18,7 @@ interface RunParam {
   dmmf: DMMF.Document;
   exportRelationModifierClasses: boolean;
   outputToNestJsResourceStructure: boolean;
+  pluralizeModelName: boolean;
   connectDtoPrefix: string;
   createDtoPrefix: string;
   updateDtoPrefix: string;
@@ -37,9 +38,10 @@ export const run = ({
   const {
     exportRelationModifierClasses,
     outputToNestJsResourceStructure,
-    fileNamingStyle = 'camel',
+    fileNamingStyle = 'kebab',
     enumAsSchema,
     prismaClientPath,
+    pluralizeModelName,
     ...preAndSuffixes
   } = options;
 
@@ -58,7 +60,15 @@ export const run = ({
     prismaClientPath,
     ...preAndSuffixes,
   });
-  const allModels = dmmf.datamodel.models;
+
+  const allModels = dmmf.datamodel.models.map((m) => {
+    if (pluralizeModelName) {
+      m.pluralName = m.name + 's';
+    } else {
+      m.pluralName = m.name;
+    }
+    return m;
+  });
 
   const filteredModels: Model[] = allModels
     .filter((model) => !isAnnotatedWith(model, DTO_IGNORE_MODEL))
@@ -68,10 +78,14 @@ export const run = ({
       ...model,
       output: {
         dto: outputToNestJsResourceStructure
-          ? path.join(output, transformFileNameCase(model.name), 'dto')
+          ? path.join(output, transformFileNameCase(model.pluralName), 'dto')
           : output,
         entity: outputToNestJsResourceStructure
-          ? path.join(output, transformFileNameCase(model.name), 'entities')
+          ? path.join(
+              output,
+              transformFileNameCase(model.pluralName),
+              'entities',
+            )
           : output,
       },
     }));

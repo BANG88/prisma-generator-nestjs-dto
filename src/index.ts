@@ -58,6 +58,12 @@ export const generate = (options: GeneratorOptions) => {
     false,
   );
 
+  const pluralizeModelName = stringToBoolean(
+    options.generator.config.pluralizeModelName,
+    // using `true` as default value would be a breaking change
+    false,
+  );
+
   const supportedFileNamingStyles = ['kebab', 'camel', 'pascal', 'snake'];
   const isSupportedFileNamingStyle = (style: string): style is NamingStyle =>
     supportedFileNamingStyles.includes(style);
@@ -84,6 +90,7 @@ export const generate = (options: GeneratorOptions) => {
     fileNamingStyle,
     enumAsSchema,
     prismaClientPath,
+    pluralizeModelName,
   });
 
   const indexCollections: Record<string, WriteableFileSpecs> = {};
