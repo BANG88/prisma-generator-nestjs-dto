@@ -1,20 +1,20 @@
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://johndoe:mypassword@localhost:5432/mydb?schema=public"
+  url      = "postgresql://dev:123456@localhost:5432/mydb?schema=public"
 }
 
 generator nestjsDto {
   provider                        = "node -r ts-node/register/transpile-only src/cli.ts"
   output                          = "../src/@generated/prisma-generator-nestjs-dto"
-  outputToNestJsResourceStructure = "false"
+  outputToNestJsResourceStructure = "true"
   exportRelationModifierClasses   = "true"
-  reExport                        = "true"
+  reExport                        = "false"
   createDtoPrefix                 = "Create"
   updateDtoPrefix                 = "Update"
   dtoSuffix                       = "Dto"
   entityPrefix                    = ""
   entitySuffix                    = ""
-  fileNamingStyle                 = "camel"
+  fileNamingStyle                 = "kebab"
 }
 
 model Product {
@@ -58,4 +58,11 @@ model Category {
 model Company {
   id      String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   Product Product[]
+}
+
+model ProductGallery {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  /// @DtoRelationRequired
+  /// cover url
+  image     String   @db.VarChar(255)
 }

@@ -1,12 +1,12 @@
 {
-  "name": "@yundo/prisma-generator-nestjs-dto",
+  "name": "@bang88/prisma-generator-nestjs-dto",
   "description": "Generates DTO and Entity classes from Prisma Schema for NestJS",
-  "version": "1.6.4",
+  "version": "1.6.5",
   "license": "Apache-2.0",
   "author": {
     "name": "Yundo Han, (original by. Benjamin Kroeger)",
     "email": "han@yun.do",
-    "url": "https://github.com/ydhn"
+    "url": "https://github.com/bang88"
   },
   "main": "dist/index.js",
   "keywords": [
@@ -31,7 +31,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ydhn/prisma-generator-nestjs-dto"
+    "url": "https://github.com/bang88/prisma-generator-nestjs-dto"
   },
   "bin": {
     "prisma-generator-nestjs-dto": "dist/cli.js"
@@ -46,7 +46,10 @@
     "access": "public"
   },
   "dependencies": {
+    "@prisma/generator-helper": "^4.8.1",
+    "@prisma/internals": "^4.8.1",
     "case": "^1.6.3",
+    "class-validator": "^0.14.0",
     "make-dir": "^3.1.0",
     "slash": "^3.0.0",
     "tar": "^6.1.11"
@@ -66,12 +69,7 @@
     "rimraf": "^3.0.2",
     "ts-jest": "^27.0.5",
     "ts-node": "^10.2.1",
-    "typescript": "^4.4.3",
-    "ts-toolbelt": "^9.6.0"
-  },
-  "peerDependencies": {
-    "@prisma/generator-helper": "^4.3.1",
-    "@prisma/sdk": "^4.0.0",
-    "class-validator": "^0.13.2"
+    "ts-toolbelt": "^9.6.0",
+    "typescript": "^4.4.3"
   }
 }
