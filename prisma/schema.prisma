@@ -20,6 +20,7 @@ generator nestjsDto {
 
 model Product {
   id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  /// product name
   name        String   @db.VarChar(255)
   description String   @db.VarChar(1024)
   images      Json[]   @db.Json
@@ -30,6 +31,7 @@ model Product {
   categoryId  String   @db.Uuid
   companyId   String   @db.Uuid
 
+  /// category
   /// @DtoRelationRequired
   /// @DtoRelationCanConnectOnCreate
   category Category @relation(fields: [categoryId], references: [id])

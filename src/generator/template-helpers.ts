@@ -167,31 +167,46 @@ export const makeHelpers = ({
       '',
     );
 
+  const getComments = (field: ParsedField) => {
+    if (!field.documentation) {
+      return '';
+    }
+    const docs = field.documentation.split('\n');
+    const comments = docs.filter((doc) => !doc.startsWith('@'));
+    return comments.join(' ');
+  };
+
   const fieldToDtoProp = (
     field: ParsedField,
     enumAsSchema: boolean,
     useInputTypes = false,
     forceOptional = false,
-  ) =>
-    `${requiredDecorators(field, useInputTypes, enumAsSchema)}${
+  ) => {
+    const comments = getComments(field);
+    return `
+    ${comments?.length ? `/** ${comments} */` : ''}
+    ${requiredDecorators(field, useInputTypes, enumAsSchema)}${
       field.name
     }${unless(field.isRequired && !forceOptional, '?')}: ${fieldType(
       field,
       useInputTypes,
     )};`;
+  };
 
   const fieldsToDtoProps = (
     fields: ParsedField[],
     enumAsSchema: boolean,
     useInputTypes = false,
     forceOptional = false,
-  ) =>
-    `${each(
+  ) => {
+    console.log(fields);
+    return `${each(
       fields,
       (field) =>
         fieldToDtoProp(field, enumAsSchema, useInputTypes, forceOptional),
       '\n',
     )}`;
+  };
 
   const fieldToEntityProp = (field: ParsedField, enumAsSchema: boolean) =>
     `${requiredDecorators(field, false, enumAsSchema)}${field.name}${unless(
