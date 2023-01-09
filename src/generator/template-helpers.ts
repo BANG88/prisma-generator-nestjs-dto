@@ -199,7 +199,6 @@ export const makeHelpers = ({
     useInputTypes = false,
     forceOptional = false,
   ) => {
-    console.log(fields);
     return `${each(
       fields,
       (field) =>
